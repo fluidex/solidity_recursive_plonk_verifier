@@ -1050,7 +1050,7 @@ contract Plonk4VerifierWithAccessToDNext {
             concatenated = abi.encodePacked(concatenated, index);
         }
         uint256 input;
-        for (uint256 i = 0; i < recursive_vks_indexes.length; i++) {
+        for (uint256 i = 0; i < individual_vks_inputs.length; i++) {
             input = individual_vks_inputs[i];
             assert(input < r_mod);
             concatenated = abi.encodePacked(concatenated, input);
