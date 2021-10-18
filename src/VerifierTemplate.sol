@@ -437,10 +437,13 @@ contract Plonk4VerifierWithAccessToDNext {
         tmp_2.mul_assign(dens[dens.length - 1]);
         tmp_2 = tmp_2.inverse(); // tmp_2 contains a^-1 * b^-1 (with! the last one)
 
-        for (uint256 i = dens.length - 1; i < dens.length; i--) {
+        for (uint i = dens.length - 1; ; i--) {
             dens[i].assign(tmp_2); // all inversed
             dens[i].mul_assign(partial_products[i]); // clear lowest terms
             tmp_2.mul_assign(dens[i]);
+            if (i == 0) {
+              break;
+            }
         }
 
         for (uint256 i = 0; i < nums.length; i++) {
