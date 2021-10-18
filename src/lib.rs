@@ -5,16 +5,24 @@ use handlebars::Handlebars;
 use std::collections::HashMap;
 
 pub mod config;
+mod primitives;
 mod render_vk;
+pub mod serialization;
+pub mod types;
 pub use crate::config::Config;
-use crate::render_vk::{rendered_key, render_scalar_to_hex};
+pub use primitives::ethereum_serializer;
+pub use recursive_aggregation_circuit::circuit;
+
+use crate::render_vk::rendered_key;
+use primitives::render_scalar_to_hex;
 
 pub fn create_verifier_contract_from_template(
     config: Config,
     template_filepath: &str,
     render_to_path: &str,
 ) {
-    let template = std::fs::read_to_string(template_filepath).expect("failed to read Verifier template file");
+    let template =
+        std::fs::read_to_string(template_filepath).expect("failed to read Verifier template file");
     let mut template_params = HashMap::new();
 
     template_params.insert(
@@ -37,10 +45,7 @@ pub fn create_verifier_contract_from_template(
     log::info!("Verifier contract successfully generated");
 }
 
-pub fn create_verifier_contract_from_default_template(
-    config: Config,
-    render_to_path: &str,
-) {
-    let template_filepath =  "./VerifierTemplate.sol";
+pub fn create_verifier_contract_from_default_template(config: Config, render_to_path: &str) {
+    let template_filepath = "./VerifierTemplate.sol";
     create_verifier_contract_from_template(config, template_filepath, render_to_path)
 }

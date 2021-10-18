@@ -4,10 +4,8 @@ use std::collections::HashMap;
 // use std::path::Path;
 
 use franklin_crypto::bellman::pairing::{
-    CurveAffine,
-    Engine,
     bn256::{Bn256 as NodeEngine, Fr},
-    ff::{PrimeField, PrimeFieldRepr},
+    CurveAffine, Engine,
 };
 use franklin_crypto::bellman::plonk::{better_better_cs::setup::VerificationKey, domains::Domain};
 use recursive_aggregation_circuit::circuit::RecursiveAggregationCircuitBn256;
@@ -28,7 +26,7 @@ pub(crate) fn rendered_key(
     map.insert("omega".to_owned(), to_json(render_scalar_to_hex(&omega)));
 
     for (i, c) in recursive_vk.gate_setup_commitments.iter().enumerate() {
-        let rendered = render_g1_affine_to_hex::<NodeEngine>(&c);
+        let rendered = render_g1_affine_to_hex::<NodeEngine>(c);
 
         for (j, rendered) in rendered.iter().enumerate() {
             map.insert(
@@ -39,7 +37,7 @@ pub(crate) fn rendered_key(
     }
 
     for (i, c) in recursive_vk.gate_selectors_commitments.iter().enumerate() {
-        let rendered = render_g1_affine_to_hex::<NodeEngine>(&c);
+        let rendered = render_g1_affine_to_hex::<NodeEngine>(c);
 
         for (j, rendered) in rendered.iter().enumerate() {
             map.insert(
@@ -50,7 +48,7 @@ pub(crate) fn rendered_key(
     }
 
     for (i, c) in recursive_vk.permutation_commitments.iter().enumerate() {
-        let rendered = render_g1_affine_to_hex::<NodeEngine>(&c);
+        let rendered = render_g1_affine_to_hex::<NodeEngine>(c);
 
         for (j, rendered) in rendered.iter().enumerate() {
             map.insert(
@@ -76,13 +74,7 @@ pub(crate) fn rendered_key(
     map
 }
 
-pub(crate) fn render_scalar_to_hex<F: PrimeField>(el: &F) -> String {
-    let mut buff = vec![];
-    let repr = el.into_repr();
-    repr.write_be(&mut buff).unwrap();
-
-    format!("0x{}", hex::encode(buff))
-}
+use crate::primitives::render_scalar_to_hex;
 
 fn render_g1_affine_to_hex<E: Engine>(point: &E::G1Affine) -> [String; 2] {
     if point.is_zero() {
