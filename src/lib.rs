@@ -30,6 +30,8 @@ pub fn create_verifier_contract_from_template(
         to_json(render_scalar_to_hex(&config.vk_tree_root)),
     );
 
+    //    template_params.insert("vk_max_index".to_string(), to_json(&config.vk_max_index));
+    template_params.insert("vk_input_num".to_string(), to_json(&config.vk_input_num));
     // template_params.insert("vk_max_index".to_string(), to_json(config.vk_max_index));
 
     // TODO: improve?

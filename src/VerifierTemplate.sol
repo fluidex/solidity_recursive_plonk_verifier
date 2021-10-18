@@ -438,9 +438,10 @@ contract Plonk4VerifierWithAccessToDNext {
         tmp_2 = tmp_2.inverse(); // tmp_2 contains a^-1 * b^-1 (with! the last one)
 
         for (uint i = dens.length - 1; ; i--) {
-            dens[i].assign(tmp_2); // all inversed
-            dens[i].mul_assign(partial_products[i]); // clear lowest terms
+            tmp_1.assign(tmp_2); // all inversed
+            tmp_1.mul_assign(partial_products[i]); // clear lowest terms
             tmp_2.mul_assign(dens[i]);
+            dens[i].assign(tmp_1);
             if (i == 0) {
               break;
             }
@@ -1044,7 +1045,7 @@ contract Plonk4VerifierWithAccessToDNext {
         uint256[] memory individual_vks_inputs,
         uint256[16] memory subproofs_aggregated
     ) internal pure returns (uint256 recursive_input, PairingsBn254.G1Point[2] memory reconstructed_g1s) {
-        // assert(recursive_vks_indexes.length == individual_vks_inputs.length);
+        assert(recursive_vks_indexes.length * {{vk_input_num}} == individual_vks_inputs.length);
         bytes memory concatenated = abi.encodePacked(recursive_vks_root);
         uint8 index;
         for (uint256 i = 0; i < recursive_vks_indexes.length; i++) {
@@ -1216,7 +1217,8 @@ contract KeysWithPlonkVerifier is VerifierWithDeserialize {
 
     uint256 constant VK_TREE_ROOT = {{vk_tree_root}};
     uint8 constant VK_MAX_INDEX = 255; // hardcoded as 255 to consist with plonkit
-    uint256 internal constant INPUT_MASK = ~uint256(0) >> 3;
+    //zk sync mask it to 253bit but we kept mask as the most capiticy of bn254 (254bit)
+    uint256 internal constant INPUT_MASK = ~uint256(0) >> 2;
 
     function getVkAggregated() internal pure returns(VerificationKey memory vk) {
         vk.domain_size = {{domain_size}};
