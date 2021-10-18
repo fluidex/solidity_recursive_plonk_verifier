@@ -1122,7 +1122,7 @@ contract Plonk4VerifierWithAccessToDNext {
         uint256[] memory individual_vks_inputs,
         uint256[16] memory subproofs_aggregated
     ) internal pure returns (uint256 recursive_input, PairingsBn254.G1Point[2] memory reconstructed_g1s) {
-        assert(recursive_vks_indexes.length == individual_vks_inputs.length);
+        // assert(recursive_vks_indexes.length == individual_vks_inputs.length);
         bytes memory concatenated = abi.encodePacked(recursive_vks_root);
         uint8 index;
         for (uint256 i = 0; i < recursive_vks_indexes.length; i++) {
