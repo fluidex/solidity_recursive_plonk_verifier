@@ -13,7 +13,7 @@ pragma experimental ABIEncoderV2;
 contract KeysWithPlonkVerifier is VerifierWithDeserialize {
 
     uint256 constant VK_TREE_ROOT = {{vk_tree_root}};
-    // uint8 constant VK_MAX_INDEX = {{vk_max_index}};
+    uint8 constant VK_MAX_INDEX = {{vk_max_index}};
 
     function getVkAggregated() internal pure returns(VerificationKey memory vk) {
         vk.domain_size = {{domain_size}};
