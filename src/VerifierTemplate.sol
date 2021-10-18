@@ -14,6 +14,7 @@ contract KeysWithPlonkVerifier is VerifierWithDeserialize {
 
     uint256 constant VK_TREE_ROOT = {{vk_tree_root}};
     uint8 constant VK_MAX_INDEX = 255; // hardcoded as 255 to consist with plonkit
+    uint256 internal constant INPUT_MASK = $$(~uint256(0) >> 3);
 
     function getVkAggregated() internal pure returns(VerificationKey memory vk) {
         vk.domain_size = {{domain_size}};
@@ -87,6 +88,36 @@ contract KeysWithPlonkVerifier is VerifierWithDeserialize {
             [{{g2_x_y_c1}},
             {{g2_x_y_c0}}]
         );
+    }
+
+    function verifyAggregatedProof(
+        uint256[] memory _recursiveInput,
+        uint256[] memory _proof,
+        uint8[] memory _vkIndexes,
+        uint256[] memory _individualVksInputs,
+        uint256[16] memory _subproofsLimbs
+    ) external view returns (bool) {
+
+        /*
+        for (uint256 i = 0; i < _individualVksInputs.length; ++i) {
+            uint256 commitment = _individualVksInputs[i];
+            _individualVksInputs[i] = commitment & INPUT_MASK;
+        }
+        */
+
+        VerificationKey memory vk = getVkAggregated();
+
+        return
+            verify_serialized_proof_with_recursion(
+                _recursiveInput,
+                _proof,
+                VK_TREE_ROOT,
+                VK_MAX_INDEX,
+                _vkIndexes,
+                _individualVksInputs,
+                _subproofsLimbs,
+                vk
+            );
     }
 }
 
