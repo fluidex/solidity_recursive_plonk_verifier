@@ -21,8 +21,8 @@ pub fn create_verifier_contract_from_template(
     template: &str,
     render_to_path: &str,
 ) {
-//    let template =
-//        std::fs::read_to_string(template_filepath).expect("failed to read Verifier template file");
+    //    let template =
+    //        std::fs::read_to_string(template_filepath).expect("failed to read Verifier template file");
     let mut template_params = HashMap::new();
 
     template_params.insert(
@@ -30,10 +30,7 @@ pub fn create_verifier_contract_from_template(
         to_json(render_scalar_to_hex(&config.vk_tree_root)),
     );
 
-    template_params.insert(
-        "vk_max_index".to_string(),
-        to_json(&config.vk_max_index),
-    );
+    template_params.insert("vk_max_index".to_string(), to_json(&config.vk_max_index));
 
     // template_params.insert("vk_max_index".to_string(), to_json(config.vk_max_index));
 
@@ -50,16 +47,11 @@ pub fn create_verifier_contract_from_template(
     log::info!("Verifier contract successfully generated");
 }
 
-pub fn create_verifier_contract(
-    config: Config,
-    template_filepath: &str,
-    render_to_path: &str,
-) {
+pub fn create_verifier_contract(config: Config, template_filepath: &str, render_to_path: &str) {
     let template =
         std::fs::read_to_string(template_filepath).expect("failed to read Verifier template file");
     create_verifier_contract_from_template(config, &template, render_to_path)
 }
-
 
 pub fn create_verifier_contract_from_default_template(config: Config, render_to_path: &str) {
     let template = include_str!("./VerifierTemplate.sol");
