@@ -6,5 +6,5 @@ pub struct Config {
     pub recursive_vk: VerificationKey<Bn256, RecursiveAggregationCircuitBn256<'static>>, // TODO: fix type
     pub vk_tree_root: Fr,
     //    pub vk_max_index: u8,
-    pub vk_input_num: usize,
+    pub individual_input_num: usize,
 }

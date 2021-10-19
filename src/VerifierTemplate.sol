@@ -5,10 +5,6 @@ pragma solidity >=0.5.0 <0.9.0;
 
 pragma experimental ABIEncoderV2;
 
-// TODO: inline
-// TODO: chunks?
-// import "./PlonkCore.sol";
-
 library PairingsBn254 {
     uint256 constant q_mod = 21888242871839275222246405745257275088696311157297823662689037894645226208583;
     uint256 constant r_mod = 21888242871839275222246405745257275088548364400416034343698204186575808495617;
@@ -1045,7 +1041,7 @@ contract Plonk4VerifierWithAccessToDNext {
         uint256[] memory individual_vks_inputs,
         uint256[16] memory subproofs_aggregated
     ) internal pure returns (uint256 recursive_input, PairingsBn254.G1Point[2] memory reconstructed_g1s) {
-        assert(recursive_vks_indexes.length * {{vk_input_num}} == individual_vks_inputs.length);
+        assert(recursive_vks_indexes.length * {{ individual_input_num }} == individual_vks_inputs.length);
         bytes memory concatenated = abi.encodePacked(recursive_vks_root);
         uint8 index;
         for (uint256 i = 0; i < recursive_vks_indexes.length; i++) {
@@ -1217,8 +1213,6 @@ contract KeysWithPlonkVerifier is VerifierWithDeserialize {
 
     uint256 constant VK_TREE_ROOT = {{vk_tree_root}};
     uint8 constant VK_MAX_INDEX = 255; // hardcoded as 255 to consist with plonkit
-    //zk sync mask it to 253bit but we kept mask as the most capiticy of bn254 (254bit)
-    uint256 internal constant INPUT_MASK = ~uint256(0) >> 2;
 
     function getVkAggregated() internal pure returns(VerificationKey memory vk) {
         vk.domain_size = {{domain_size}};
@@ -1303,7 +1297,7 @@ contract KeysWithPlonkVerifier is VerifierWithDeserialize {
     ) external view returns (bool) {
         for (uint256 i = 0; i < _individualVksInputs.length; ++i) {
             uint256 commitment = _individualVksInputs[i];
-            _individualVksInputs[i] = commitment & INPUT_MASK;
+            _individualVksInputs[i] = commitment;
         }
 
         VerificationKey memory vk = getVkAggregated();
