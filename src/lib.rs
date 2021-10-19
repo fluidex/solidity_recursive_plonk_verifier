@@ -21,8 +21,6 @@ pub fn create_verifier_contract_from_template(
     template: &str,
     render_to_path: &str,
 ) {
-    //    let template =
-    //        std::fs::read_to_string(template_filepath).expect("failed to read Verifier template file");
     let mut template_params = HashMap::new();
 
     template_params.insert(
@@ -30,7 +28,6 @@ pub fn create_verifier_contract_from_template(
         to_json(render_scalar_to_hex(&config.vk_tree_root)),
     );
 
-    //    template_params.insert("vk_max_index".to_string(), to_json(&config.vk_max_index));
     template_params.insert(
         "individual_input_num".to_string(),
         to_json(&config.individual_input_num),
