@@ -1,0 +1,26 @@
+[package]
+name = "solidity_recursive_plonk_verifier"
+version = "1.0.0"
+edition = "2018"
+authors = [ "The Matter Labs Team <hello@matterlabs.dev>", "The FluiDex Team <contact@fluidex.io>" ]
+repository = "https://github.com/fluidex/solidity_recursive_plonk_verifier"
+license = "Apache-2.0"
+keywords = [ "blockchain" ]
+categories = [ "cryptography" ]
+publish = false # We don't want to publish our binaries.
+
+[dependencies]
+# rust-crypto = "0.2"
+# structopt = "0.3.20"
+handlebars = "3.0.1"
+serde = "1"
+ethabi = "14"
+serde_json = "1.0.0"
+# time = "0.1"
+hex = "0.4"
+byteorder = "1"
+# anyhow = "1.0"
+franklin-crypto = { git = "https://github.com/matter-labs/franklin-crypto", branch = "beta", features = [ "multicore", "plonk" ] }
+recursive_aggregation_circuit = { package = "recursive_aggregation_circuit", version = "1.0.0", git = "https://github.com/matter-labs/recursive_aggregation_circuit.git", branch = "master" }
+log = "0.4.11"
+
