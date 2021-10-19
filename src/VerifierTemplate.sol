@@ -1295,11 +1295,6 @@ contract KeysWithPlonkVerifier is VerifierWithDeserialize {
         uint256[] memory _individualVksInputs,
         uint256[16] memory _subproofsLimbs
     ) external view returns (bool) {
-        for (uint256 i = 0; i < _individualVksInputs.length; ++i) {
-            uint256 commitment = _individualVksInputs[i];
-            _individualVksInputs[i] = commitment;
-        }
-
         VerificationKey memory vk = getVkAggregated();
 
         return
