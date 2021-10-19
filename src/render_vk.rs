@@ -1,7 +1,5 @@
 use handlebars::to_json;
 use std::collections::HashMap;
-// use std::fs::File;
-// use std::path::Path;
 
 use franklin_crypto::bellman::pairing::{
     bn256::{Bn256 as NodeEngine, Fr},
